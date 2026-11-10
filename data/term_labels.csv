@@ -1,0 +1,231 @@
+term,set,label
+agentic,top,1
+long-horizon,top,0
+rollouts,top,0
+open-weight,top,1
+failure modes,top,0
+auditable,top,0
+grpo,top,1
+language-model,top,0
+coding agents,top,1
+verifier,top,0
+visual evidence,top,0
+self-evolving,top,1
+on-policy distillation,top,1
+verifiable rewards,top,1
+deepseek-r1,top,1
+rlvr,top,1
+vision-language-action,top,1
+evidence-grounded,top,0
+qwen3-8b,top,1
+vla,top,1
+pre-registered,top,0
+gpt-5.4,top,1
+claude opus,top,1
+tool-use,top,0
+gpt-5.5,top,1
+agentic ai,top,1
+llm judge,top,1
+rubrics,top,1
+reasoning traces,top,1
+memory systems,top,0
+claude sonnet,top,1
+hidden-state,top,0
+opd,top,1
+deployable,top,0
+diffusion language,top,1
+qwen3,top,1
+claude code,top,1
+frontier llms,top,1
+agentic systems,top,1
+prefill,top,1
+agent skills,top,1
+gpt-5.2,top,1
+cross-model,top,0
+agent memory,top,1
+sits,top,0
+sonnet 4.6,top,1
+tool-using,top,0
+llm-as-judge,top,1
+kv-cache,top,0
+stateful,top,0
+coding agent,top,1
+locomo,top,1
+group relative policy,top,1
+llm judges,top,1
+openclaw,top,1
+alfworld,top,0
+qwen3-4b,top,1
+single-pass,top,0
+sycophancy,top,0
+task-level,top,0
+harmbench,random,1
+missing-modality,random,0
+admissibility,random,0
+vibe coding,random,1
+agentic evaluation,random,1
+auditing framework,random,0
+activation-space,random,0
+reallocation,random,0
+clinical ai,random,0
+adaptive gating,random,0
+uncertainty-guided,random,0
+124m,random,0
+multi-timescale,random,0
+moltbook,random,1
+fineweb-edu,random,1
+world modeling,random,0
+structured evidence,random,0
+tri-modal,random,0
+evidence graph,random,0
+stage ii,random,0
+temporal memory,random,0
+patient-level,random,0
+emergent misalignment,random,1
+world-action,random,1
+skill evolution,random,1
+row-wise,random,0
+multi-agent coordination,random,0
+multi-hop retrieval,random,0
+jacobians,random,0
+sglang,random,1
+chunk-level,random,0
+decision framework,random,0
+scaffolded,random,0
+grpo training,random,1
+cascading failures,random,0
+tsfms,random,1
+convergence theory,random,0
+externalized,random,0
+8b-parameter,random,0
+agent loop,random,0
+generative recommendation,random,1
+hard-negative,random,0
+mcnemar,random,0
+2x2,random,0
+majority-vote,random,0
+agentic architecture,random,1
+model failures,random,0
+flow-matching,random,0
+llms rely,random,0
+confidence signal,random,0
+rag baselines,random,0
+moe language,random,0
+tail risk,random,0
+llm-judge,random,1
+verbalized confidence,random,0
+a2a,random,1
+open-ended generation,random,0
+compute-matched,random,0
+edge deployment,random,0
+reasoning-driven,random,0
+evidence-aware,random,0
+0.6b,random,0
+internalization,random,0
+anytime-valid,random,0
+generative systems,random,0
+prior-guided,random,0
+frozen llm,random,0
+multi-vector,random,0
+vram,random,0
+reasoning-intensive,random,1
+grpo,reference,1
+rlvr,reference,1
+deepseek-r1,reference,1
+qwen3,reference,1
+mcp,reference,1
+model context protocol,reference,1
+test-time scaling,reference,1
+dapo,reference,1
+gspo,reference,1
+deep research,reference,1
+agentic rag,reference,1
+vibe coding,reference,1
+context engineering,reference,1
+computer-use,reference,1
+browsecomp,reference,1
+aime25,reference,1
+llada,reference,1
+gemini 2.5,reference,1
+gpt-5,reference,1
+claude code,reference,1
+kimi k2,reference,1
+r1-zero,reference,1
+overthinking,reference,1
+search-r1,reference,1
+agent skills,reference,1
+latent reasoning,reference,1
+on-policy distillation,reference,1
+gpt-oss,reference,1
+deepseek-v3,reference,1
+muon,reference,1
+swe-bench verified,reference,1
+tau-bench,reference,1
+llm-as-a-judge,reference,1
+vision-language-action,reference,1
+diffusion language models,reference,1
+world action models,reference,1
+long cot,reference,1
+reasoning models,reference,1
+test-time compute,reference,1
+verifiable rewards,reference,1
+enabling stable,rejected,0
+client updates,rejected,0
+llms frequently,rejected,0
+dispatch,rejected,0
+value learning,rejected,0
+substrates,rejected,0
+three-stage pipeline,rejected,0
+remaining computationally,rejected,0
+image-to-video,rejected,0
+cultural knowledge,rejected,0
+unconditionally,rejected,0
+approaches typically,rejected,0
+restarts,rejected,0
+splines,rejected,0
+3dgs,rejected,0
+structured prompting,rejected,0
+mas,rejected,0
+interpretable insights,rejected,0
+deferred,rejected,0
+overhead extensive experiments,rejected,0
+arise naturally,rejected,0
+allowing agents,rejected,0
+annotation pipeline,rejected,0
+action distributions,rejected,0
+remains poorly,rejected,0
+increasingly mediate,rejected,0
+single-pass inference,rejected,0
+architectural,rejected,0
+informative signals,rejected,0
+steering vector,rejected,0
+variational quantum circuit,rejected,0
+item response,rejected,0
+problems demonstrate,rejected,0
+investigates whether,rejected,0
+inert,rejected,0
+target behavior,rejected,0
+mteb,rejected,0
+alignment extensive,rejected,0
+shared space,rejected,0
+decision threshold,rejected,0
+gemini 2.5 pro,rejected,1
+must preserve,rejected,0
+diverse suite,rejected,0
+planning framework,rejected,0
+visual regions,rejected,0
+work largely,rejected,0
+geometric analysis,rejected,0
+nu,rejected,0
+models must,rejected,0
+vision-language models vision-language,rejected,0
+whether language,rejected,0
+reveal three,rejected,0
+audio models,rejected,0
+training curriculum,rejected,0
+larger gains,rejected,0
+scalable paradigm,rejected,0
+several settings,rejected,0
+formal proofs,rejected,0
+recomputed,rejected,0
+reinterprets,rejected,0

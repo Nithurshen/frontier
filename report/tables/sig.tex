@@ -1,0 +1,20 @@
+\begin{tabular}{llrrrrr}
+\toprule
+Comparison & Metric & Mean A & Mean B & W/L & $p_t$ & $p_W$ \\
+\midrule
+Frontier vs Hybrid & nDCG@10 & 47.8 & 45.0 & 14/3 & 0.013 & 0.010 \\
+Frontier vs Hybrid & R@20 & 60.0 & 57.4 & 6/1 & 0.027 & 0.019 \\
+Frontier vs BM25 & nDCG@10 & 47.8 & 40.9 & 43/19 & 2e-5 & 3e-5 \\
+Frontier vs BM25 & R@20 & 60.0 & 50.9 & 24/3 & 2e-5 & 3e-5 \\
+Frontier vs bge-small & nDCG@10 & 47.8 & 36.3 & 72/15 & 3e-8 & 3e-8 \\
+Frontier vs bge-small & R@20 & 60.0 & 48.4 & 39/8 & 4e-6 & 1e-5 \\
+Hybrid{+}E vs Hybrid & nDCG@10 & 45.9 & 45.0 & 9/3 & 0.177 & 0.147 \\
+Hybrid{+}E vs Hybrid & R@20 & 57.9 & 57.4 & 2/2 & 0.528 & 0.458 \\
+BM25{+}E vs BM25 & nDCG@10 & 41.4 & 40.9 & 5/1 & 0.144 & 0.075 \\
+BM25{+}E vs BM25 & R@20 & 51.4 & 50.9 & 1/0 & 0.318 & 0.317 \\
+bge-small{+}E vs bge-small & nDCG@10 & 36.7 & 36.3 & 8/7 & 0.616 & 0.570 \\
+bge-small{+}E vs bge-small & R@20 & 49.5 & 48.4 & 5/3 & 0.298 & 0.248 \\
+Hybrid vs BM25 & nDCG@10 & 45.0 & 40.9 & 35/19 & 0.001 & 0.002 \\
+Hybrid vs BM25 & R@20 & 57.4 & 50.9 & 20/4 & 9e-4 & 0.001 \\
+\bottomrule
+\end{tabular}

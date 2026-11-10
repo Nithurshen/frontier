@@ -1,0 +1,10 @@
+\begin{tabular}{llrrrrr}
+\toprule
+Comparison & Metric & Mean A & Mean B & W/L & $p_t$ & $p_W$ \\
+\midrule
+Hybrid vs BM25 & nDCG@10 & 51.4 & 43.2 & 159/47 & 1e-18 & 3e-17 \\
+Frontier vs Hybrid & nDCG@10 & 51.5 & 51.4 & 1/1 & 0.912 & 0.655 \\
+Frontier{+}PageRank vs Frontier & nDCG@10 & 51.9 & 51.5 & 25/14 & 0.006 & 0.015 \\
+bge-small vs BM25 & nDCG@10 & 44.0 & 43.2 & 147/140 & 0.583 & 0.549 \\
+\bottomrule
+\end{tabular}

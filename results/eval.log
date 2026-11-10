@@ -1,0 +1,33 @@
+fresh 426 queries 210 dev 216 test
+bm25 (1.5, 0.9) 0.445
+W1108 00:59:13.236000 76666 .venv/lib/python3.13/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 32044.63it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  tune 0/210
+  tune 50/210
+  tune 100/210
+  tune 150/210
+  tune 200/210
+tuned {'alpha': 0.5, 'alpha_e': 0.5, 'beta': 0.1, 'link': 0.75, 'prior': 0.05, 'dense': 'bge', 'k1': 1.5, 'b': 0.9} 0.5171 hybrid alpha 0.5
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 19324.11it/s]
+  fresh 0/426 2s
+  fresh 50/426 12s
+  fresh 100/426 21s
+  fresh 150/426 31s
+  fresh 200/426 41s
+  fresh 250/426 51s
+  fresh 300/426 61s
+  fresh 350/426 71s
+  fresh 400/426 80s
+  litsearch 0/597 0s
+  litsearch 50/597 2s
+  litsearch 100/597 3s
+  litsearch 150/597 5s
+  litsearch 200/597 7s
+  litsearch 250/597 8s
+  litsearch 300/597 10s
+  litsearch 350/597 11s
+  litsearch 400/597 13s
+  litsearch 450/597 15s
+  litsearch 500/597 16s
+  litsearch 550/597 18s

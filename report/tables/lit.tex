@@ -1,0 +1,22 @@
+\begin{tabular}{lrrrrrr}
+\toprule
+System & \multicolumn{2}{c}{Inline-citation} & \multicolumn{2}{c}{Author-written} & \multicolumn{2}{c}{Average} \\
+ & Spec.\ R@5 & Broad R@20 & Spec.\ R@5 & Broad R@20 & Spec.\ R@5 & Broad R@20 \\
+\midrule
+TF-IDF & 43.5 & 43.3 & 60.2 & 51.4 & 51.5 & 45.1 \\
+QL-Dirichlet & 43.7 & 41.4 & 61.1 & 60.0 & 52.0 & 45.6 \\
+BM25 & 46.5 & 44.6 & 65.9 & 57.1 & 55.8 & 47.5 \\
+BM25{+}PRF & 41.8 & 45.9 & 63.0 & 57.1 & 51.9 & 48.4 \\
+e5-small & 43.7 & 38.9 & 53.1 & 54.3 & 48.2 & 42.4 \\
+bge-small & 51.9 & 59.4 & 55.5 & 57.1 & 53.6 & 58.9 \\
+Hybrid & 55.6 & 58.3 & 73.5 & 68.6 & 64.1 & 60.6 \\
+Frontier & 55.6 & 58.3 & 73.5 & 68.6 & 64.1 & 60.6 \\
+Frontier{+}PageRank & 56.5 & 58.3 & 72.5 & 65.7 & 64.1 & 60.0 \\
+\midrule
+BM25 \cite{ajith2024} & 38.5 & 37.4 & 62.6 & 48.6 & 50.0 & 39.9 \\
+GTR-T5-large \cite{ajith2024} & 38.5 & 45.7 & 40.8 & 37.1 & 39.6 & 43.8 \\
+Instructor-XL \cite{ajith2024} & 48.9 & 56.3 & 55.9 & 57.1 & 52.3 & 56.5 \\
+E5-large-v2 \cite{ajith2024} & 50.4 & 55.8 & 62.6 & 54.3 & 56.2 & 55.4 \\
+GritLM-7B \cite{ajith2024} & 67.7 & 69.7 & 82.5 & 74.3 & 74.8 & 70.8 \\
+\bottomrule
+\end{tabular}

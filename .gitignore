@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+Course-handout.pdf
+data/*
+!data/term_labels.csv
+!data/origin_labels.csv
+!data/fresh_queries.csv
+!data/fresh_queries.parquet
+!data/lit_queries.parquet
+report/*.aux
+report/*.log
+report/*.out
