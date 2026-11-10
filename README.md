@@ -30,38 +30,108 @@ Fresh-2026 test split (216 time-aware citation queries; all parameters tuned on 
 
 ## Setup
 
+Requirements:
+
+- Python 3.13 (the version used for all reported results).
+- About 6 GB of free disk (the Hugging Face download cache is about 3 GB; the generated `data/` folder is about 1 GB) and 16 GB of RAM.
+- A GPU is optional but strongly recommended for step 2. Frontier picks Apple MPS or CUDA automatically and falls back to the CPU. Embedding 302k papers with two models took roughly 30 to 60 minutes on an Apple M4 Pro. Expect many hours on a CPU.
+- Internet access to Hugging Face (step 1). Access to arxiv.org is needed only for the optional crawler.
+- Optional: [Tectonic](https://tectonic-typesetting.github.io) (`brew install tectonic`) to rebuild the PDF report.
+
 ```bash
+git clone https://github.com/Nithurshen/frontier.git
+cd frontier
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Tested with Python 3.13 on an Apple M4 Pro (48 GB). The embedding models are downloaded from Hugging Face on first use.
+The data, indexes and embeddings are **not** in the repository. Follow the steps below to create them. Only a few small files are committed: the Fresh-2026 queries, the LitSearch queries and the two manual label files.
 
 ## Reproduce
 
+Run everything from the repository root with the virtual environment active.
+
+| Step | Command | What it does | Creates | Time (M4 Pro) |
+|---|---|---|---|---|
+| 1 | `python -m frontier.fetch` | Downloads LitSearch and the arXiv metadata snapshot from Hugging Face (pinned revisions, about 3 GB), then keeps papers in cs.CL, cs.LG, cs.AI or cs.IR first submitted since 2023-01-01 | `data/arxiv.parquet`, `data/lit_corpus.parquet`, `data/lit_queries.parquet` | 10 to 20 min, download-bound |
+| 2 | `python -m frontier.build` | Builds both inverted indexes and the bge-small and e5-small embeddings | `data/{lit,arxiv}/index.pkl`, `stats.json`, `dense_bge.npy`, `dense_e5.npy` | 30 to 60 min |
+| 3 | `python -m frontier.graph` | PageRank on the LitSearch citation graph | `data/lit/pagerank.npy` | seconds |
+| 4 | `python -m frontier.terms` | Detects emerging terms, links them to origin papers, builds the glossary | `data/arxiv/terms.pkl`, `terms.csv` | about 1 min |
+| 5 | (nothing) | The 426 Fresh-2026 queries are already committed as `data/fresh_queries.parquet`. See "Rebuilding Fresh-2026" below if you want to crawl them again | | |
+| 6 | `python -m frontier.evaluate` | Tunes on the dev split, evaluates all systems on Fresh-2026 and LitSearch, runs significance tests and term-detection scoring | `results/summary.json`, `tuning.json`, `fresh_runs.csv`, `lit_runs.csv` | about 10 min |
+| 7 | `python -m frontier.plots` | Draws all figures | `results/figs/*.png` | seconds |
+| 8 | `python -m frontier.report` | Writes the LaTeX tables and number macros from `summary.json` | `report/tables/*.tex` | seconds |
+| 9 | `cd report && tectonic main.tex` | Builds the PDF | `report/main.pdf` | seconds |
+| 10 | `streamlit run app.py` | The demo | | |
+
+What you need for each goal:
+
+- **Run the demo:** steps 1 to 4.
+- **Re-check the reported numbers:** steps 1 to 4, then 6. Steps 7 to 9 refresh the figures and the PDF.
+
+Options:
+
+- `python -m frontier.build lit` or `arxiv` builds one corpus only. Add `index-only` to skip embeddings, or `dense-only` to skip the index. Add `bge` or `e5` to embed with one model only.
+- `python -m frontier.evaluate fresh`, `lit` or `terms` runs one stage only. `evaluate` overwrites `results/`, which is committed.
+
+### Checks after each step
+
+| After | You should see |
+|---|---|
+| 1 | 302,070 arXiv papers dated 2023-01-01 to 2026-10-22; 64,183 LitSearch papers and 597 queries |
+| 2 | `data/arxiv/stats.json`: 302,070 docs, 234,984 terms, 26,545,143 postings. `data/lit/stats.json`: 64,183 docs, 85,463 terms |
+| 4 | `data/arxiv/terms.csv` with 1,500 terms |
+| 6 | The tuned values are alpha 0.5, alpha_e 0.5, beta 0.1, link 0.75, k1 1.5, b 0.9. On the Fresh-2026 test split, Frontier reaches nDCG@10 47.8 and the hybrid 45.0. On LitSearch the hybrid's recall@5 on specific questions is 64.1 |
+
+Dense scores can differ in the last digit across hardware (Apple MPS, CUDA and CPU round half-precision differently), so expect tiny deviations such as 47.8 vs 47.7. Everything else is deterministic.
+
+### Rebuilding Fresh-2026 (optional)
+
+The queries are built from citation sentences in arXiv HTML pages. Because arXiv pages change and some papers have no HTML version, a new crawl gives a different query set than the committed one. **The committed file is the one behind every number in the report.**
+
 ```bash
-python -m frontier.fetch              # LitSearch + arXiv metadata snapshot (about 3 GB download)
-python -m frontier.build              # inverted indexes + dense embeddings (about 1.5 h on Apple GPU)
-python -m frontier.graph              # PageRank prior on the LitSearch citation graph
-python -m frontier.terms              # emerging-term detection and linking (about 1 min)
-python -m frontier.fresh              # crawl arXiv HTML (slow: 15 s crawl delay) and build fresh queries
-python -m frontier.evaluate           # tune on the dev split, evaluate everything
-python -m frontier.plots              # figures in results/figs
-python -m frontier.report             # fill report/numbers.tex and tables
-streamlit run app.py                  # the demo
+python -m frontier.fresh crawl      # fetch about 420 sampled 2026 papers; resumable
+python -m frontier.fresh queries    # parse them into data/fresh_queries.parquet and .csv
 ```
 
-`python -m frontier.crawl` (or the Crawler tab in the app) fetches today's new submissions from arXiv listing pages and adds them to the dynamic index.
+The crawl respects robots.txt and arXiv's 15 second crawl delay, so it takes hours, and arXiv may throttle it. It saves pages to `data/html/` and skips the ones it already has. Stop and resume it as needed.
+
+### Daily crawler (optional)
+
+`python -m frontier.crawl` (or the Crawler tab in the app) fetches today's new cs.IR, cs.CL, cs.AI and cs.LG submissions from the arXiv listing pages. It stores them in `data/new_papers.parquet`. The app adds them to the dynamic auxiliary index at start-up.
+
+### Troubleshooting
+
+- `ModuleNotFoundError`: activate the virtual environment (`source .venv/bin/activate`) and run commands as `python -m frontier.<module>` from the repository root.
+- Slow or rate-limited downloads: set a free Hugging Face token (`export HF_TOKEN=...`) and re-run step 1. Finished files are cached and skipped.
+- Out of memory while embedding: lower the `batch` default in `encode_docs` in `frontier/dense.py`.
+- `build` or `terms` complains about a missing file: run the earlier steps first. Step 4 needs `dense_bge.npy` from step 2, and step 6 needs steps 1 to 4.
 
 ## Data
 
-| Data | Source | Use |
+| Data | Source | Used for |
 |---|---|---|
-| arXiv metadata | [librarian-bots/arxiv-metadata-snapshot](https://huggingface.co/datasets/librarian-bots/arxiv-metadata-snapshot), 27 Oct 2026 | 302,070 papers in cs.CL, cs.LG, cs.AI or cs.IR since January 2023 |
-| LitSearch | [princeton-nlp/LitSearch](https://huggingface.co/datasets/princeton-nlp/LitSearch) | 597 expert-checked queries, 64,183 papers; comparison with the published results |
-| Fresh-2026 queries | built by `frontier/fresh.py` from arXiv HTML | citation-context queries; cited papers are the relevant documents |
-| Term labels | `data/term_labels.csv`, `data/origin_labels.csv` | manual labels for term detection (precision/recall/F1) and origin linking |
+| arXiv metadata | [librarian-bots/arxiv-metadata-snapshot](https://huggingface.co/datasets/librarian-bots/arxiv-metadata-snapshot), revision `c428226b689a0e17db2cd55265133b9eca15d97f` (27 Oct 2026) | The 302,070-paper search corpus |
+| LitSearch | [princeton-nlp/LitSearch](https://huggingface.co/datasets/princeton-nlp/LitSearch), revision `9573fb284a1026c998df47024b888a163f0f0e25` | 597 queries and 64,183 papers: comparison with the published results, background corpus for term contrast, citation graph for PageRank |
+| Fresh-2026 queries | Built by `frontier/fresh.py` from arXiv HTML pages, committed as `data/fresh_queries.parquet` | Time-aware citation-context benchmark (426 queries from 146 papers) |
+| Term labels | `data/term_labels.csv` | Precision, recall and F1 of emerging-term detection |
+| Origin labels | `data/origin_labels.csv` | Accuracy of linking a term to its introducing paper |
+
+The Hugging Face revisions are pinned in `frontier/fetch.py`, because the arXiv snapshot is refreshed over time and a newer one would contain more papers. Both datasets are used under their own licenses; see their dataset cards.
+
+Layout of the generated `data/` folder:
+
+```
+data/
+  arxiv.parquet  lit_corpus.parquet  lit_queries.parquet     step 1
+  fresh_queries.parquet  fresh_queries.csv                    committed
+  term_labels.csv  origin_labels.csv                          committed
+  lit/    index.pkl  stats.json  dense_bge.npy  dense_e5.npy  pagerank.npy
+  arxiv/  index.pkl  stats.json  dense_bge.npy  dense_e5.npy  terms.pkl  terms.csv
+  html/   (only if you rebuild Fresh-2026)
+  new_papers.parquet   (only if you run the daily crawler)
+```
 
 ## Code map
 

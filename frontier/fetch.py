@@ -7,15 +7,23 @@ from huggingface_hub import hf_hub_download, list_repo_files
 DATA = "data"
 CATS = {"cs.CL", "cs.LG", "cs.AI", "cs.IR"}
 START = "2023-01-01"
+REVISION = {
+	"princeton-nlp/LitSearch": "9573fb284a1026c998df47024b888a163f0f0e25",
+	"librarian-bots/arxiv-metadata-snapshot":
+		"c428226b689a0e17db2cd55265133b9eca15d97f",
+}
 
 
 def pull(repo, prefix):
-	files = [f for f in list_repo_files(repo, repo_type="dataset")
+	rev = REVISION[repo]
+	files = [f for f in list_repo_files(repo, repo_type="dataset",
+					    revision=rev)
 		 if f.startswith(prefix) and f.endswith(".parquet")]
 	out = []
 	for f in sorted(files):
 		print("fetch", repo, f, flush=True)
-		out.append(hf_hub_download(repo, f, repo_type="dataset"))
+		out.append(hf_hub_download(repo, f, repo_type="dataset",
+					   revision=rev))
 	return out
 
 

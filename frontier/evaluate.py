@@ -299,6 +299,13 @@ def save(name, obj):
 		json.dump(obj, f, indent=1, default=str)
 
 
+def crawled(summary):
+	path = os.path.join(DATA, "html")
+	if not os.path.isdir(path):
+		return summary.get("fresh", {}).get("crawled", "--")
+	return len([n for n in os.listdir(path) if n.endswith(".gz")])
+
+
 def fresh_stage(summary):
 	eng = Engine("arxiv")
 	qs = fresh_queries()
@@ -344,9 +351,7 @@ def fresh_stage(summary):
 		"glossary": len(eng.gloss),
 		"papers": int(pd.read_parquet(os.path.join(
 			DATA, "fresh_queries.parquet"))["citing"].nunique()),
-		"crawled": len([n for n in
-				 os.listdir(os.path.join(DATA, "html"))
-				if n.endswith(".gz")]),
+		"crawled": crawled(summary),
 	}
 	return eng
 
